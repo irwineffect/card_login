@@ -2,25 +2,22 @@
 
 Card_reader::Card_reader(int stdin_fileno)
 {
-	termios newterm;
-
 	m_stdin_fileno = stdin_fileno;
 
 	tcgetattr(stdin_fileno, &m_old_term_settings);
-	newterm = m_old_term_settings;
-	newterm.c_lflag &= ~ECHO;
-	tcsetattr(stdin_fileno, TCSANOW, &newterm);
+	m_new_term_settings = m_old_term_settings;
+	m_new_term_settings.c_lflag &= ~ECHO;
 }
 
 Card_reader::~Card_reader(void)
 {
-	tcsetattr(m_stdin_fileno, TCSANOW, &m_old_term_settings);
 }
 
 string Card_reader::Read(void)
 {
 	string line;
 
+	setup_term();
 	while(1)
 	{
 		getline(cin, line);
@@ -31,6 +28,7 @@ string Card_reader::Read(void)
 			continue;
 		}//else, card recognized
 	
+		Restore_term();
 		return extract_id(line);	
 	}
 }
@@ -72,3 +70,12 @@ string Card_reader::extract_id(string line)
 	return line.substr(23, 8);
 }
 
+void Card_reader::setup_term(void)
+{
+	tcsetattr(m_stdin_fileno, TCSANOW, &m_new_term_settings);
+}
+
+void Card_reader::Restore_term(void)
+{
+	tcsetattr(m_stdin_fileno, TCSANOW, &m_old_term_settings);
+}

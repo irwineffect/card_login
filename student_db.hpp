@@ -22,6 +22,8 @@ class Student_db
 		bool Lookup_name(int id, string &name);
 		bool Add(int id, string name);
 		void Display_records(void);
+		bool Load_records();
+		bool Write_records();
 
 	private:
 		typedef struct
@@ -41,8 +43,6 @@ class Student_db
 
 		//internal functions
 		string hash_id(string id);
-		bool load_records();
-		bool write_records();
 
 		//private members
 		string m_db_fname;

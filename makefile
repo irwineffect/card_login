@@ -15,6 +15,8 @@ student_db.o: student_db.hpp student_db.cpp
 login.exe: student_db.o card_reader.o login.cpp
 	$(CC) $(OPTIONS) student_db.o card_reader.o login.cpp -o login.exe
 
+read_db.exe: student_db.o card_reader.o read_db.cpp
+	$(CC) $(OPTIONS) student_db.o card_reader.o read_db.cpp -o read_db.exe
 
 clean:
 	rm -f *.o *.exe

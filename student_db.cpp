@@ -7,13 +7,10 @@ Student_db::Student_db(string db_filename, string password)
 {
 	m_salt = password;
 	m_db_fname = db_filename;
-
-	load_records();
 }
 
 Student_db::~Student_db(void)
 {
-	write_records();
 }
 
 bool Student_db::Login(int id)
@@ -86,7 +83,7 @@ void Student_db::Display_records(void)
 	}
 }
 
-bool Student_db::load_records(void)
+bool Student_db::Load_records(void)
 {
 	FILE* db_fh;
 	db_fh = fopen(m_db_fname.c_str(), "rb");
@@ -135,7 +132,7 @@ bool Student_db::load_records(void)
 }
 
 
-bool Student_db::write_records(void)
+bool Student_db::Write_records(void)
 {
 	FILE* db_fh = fopen(m_db_fname.c_str(), "wb");
 
