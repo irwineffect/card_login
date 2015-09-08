@@ -23,27 +23,27 @@ int main (void)
 	db.Load_records();
 	while(1)
 	{
-		cout << "please swipe card" << endl;
+		cout << "Please swipe card" << endl;
 		//get id number from the card reader
 		id = atoi(reader.Read().c_str());
 
 		//check if id already is known
 		if(!db.Lookup_name(id, name)) //if not, prompt for a name and add to database
 		{
-			cout << "card not recognized, you must be new!" << endl;
+			cout << "Card not recognized, you must be new!" << endl;
 			string tmp;
 			while(1)
 			{
 				cout << "Please enter your name (first last) > ";
 				getline(cin, name);
-				cout << "you entered \"" << name << "\", is this correct (y/n)? > ";
+				cout << "You entered \"" << name << "\", is this correct (y/n)? > ";
 				getline(cin, tmp);
 				if(tmp[0] == 'y')
 					break;
 			}
 			db.Add(id, name);
 		}
-		cout << "welcome " << name << '!' << endl;;
+		cout << "Welcome " << name << "! You have been logged in." << endl << endl;
 		db.Login(id); //login the user
 	}
 
