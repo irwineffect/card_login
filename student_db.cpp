@@ -55,9 +55,14 @@ bool Student_db::Add(int id, string name)
 		return false;
 	}//else
 
+	if(name.length() > 31) //check for name length
+	{
+		cerr << "name length is too long, truncating!" << endl;
+		name = name.substr(0,31);
+	}
+
 	Student_memory_record new_student;
 
-	//should check that name is less than max_name size
 	new_student.name = name;
 	new_student.id = id;
 	new_student.times.clear();
