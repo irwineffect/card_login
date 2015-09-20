@@ -3,6 +3,7 @@
 Card_reader::Card_reader(int stdin_fileno)
 {
 	m_stdin_fileno = stdin_fileno;
+	log_fh = fopen("cards.log", "a");
 
 	tcgetattr(stdin_fileno, &m_old_term_settings);
 	m_new_term_settings = m_old_term_settings;
@@ -11,16 +12,20 @@ Card_reader::Card_reader(int stdin_fileno)
 
 Card_reader::~Card_reader(void)
 {
+	fclose(log_fh);
 }
 
 string Card_reader::Read(void)
 {
 	string line;
+	string logline;
 
 	setup_term();
 	while(1)
 	{
 		getline(cin, line);
+		logline = line + '\n';
+		fwrite(logline.c_str(), logline.length(), 1, log_fh);
 
 		if(!verify_line(line))
 		{

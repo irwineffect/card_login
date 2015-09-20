@@ -1,5 +1,6 @@
 #include <iostream>
 #include <termios.h>
+#include <stdio.h>
 
 using std::cin;
 using std::cout;
@@ -25,5 +26,6 @@ class Card_reader
 		termios m_old_term_settings;
 		termios m_new_term_settings;
 		int m_stdin_fileno;
+		FILE* log_fh;
 	
 };
