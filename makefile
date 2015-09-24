@@ -1,7 +1,7 @@
 OPTIONS=-Wall -g
 CC=g++
 
-all: login.exe read_db.exe
+all: login.exe read_db.exe logger.exe
 
 #
 #object files
@@ -21,6 +21,9 @@ login.exe: student_db.o card_reader.o login.cpp
 
 read_db.exe: student_db.o card_reader.o read_db.cpp
 	$(CC) $(OPTIONS) student_db.o card_reader.o read_db.cpp -o read_db.exe
+
+logger.exe: card_reader.o logger.cpp
+	$(CC) $(OPTIONS) card_reader.o logger.cpp -o logger.exe
 
 clean:
 	rm -f *.o *.exe

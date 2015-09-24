@@ -3,7 +3,7 @@
 Card_reader::Card_reader(int stdin_fileno)
 {
 	m_stdin_fileno = stdin_fileno;
-	log_fh = fopen("cards.log", "a");
+	log_fh = fopen("cardreader.log", "a");
 
 	tcgetattr(stdin_fileno, &m_old_term_settings);
 	m_new_term_settings = m_old_term_settings;
@@ -20,7 +20,7 @@ string Card_reader::Read(void)
 	string line;
 	string logline;
 
-	setup_term();
+	Setup_term();
 	while(1)
 	{
 		getline(cin, line);
@@ -75,7 +75,7 @@ string Card_reader::extract_id(string line)
 	return line.substr(23, 8);
 }
 
-void Card_reader::setup_term(void)
+void Card_reader::Setup_term(void)
 {
 	tcsetattr(m_stdin_fileno, TCSANOW, &m_new_term_settings);
 }

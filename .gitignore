@@ -2,3 +2,4 @@ cards/
 *.o
 *.exe
 *.dat
+*.log

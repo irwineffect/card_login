@@ -15,12 +15,12 @@ class Card_reader
 		~Card_reader(void);
 		string Read(void);
 		void Restore_term(void);
+		void Setup_term(void);
 
 	private:
 		//internal functions
 		bool verify_line(string line);
 		string extract_id(string line);
-		void setup_term(void);
 
 		//private members
 		termios m_old_term_settings;
