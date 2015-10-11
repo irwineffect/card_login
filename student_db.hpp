@@ -2,6 +2,7 @@
 #include <termios.h>
 #include <time.h>
 #include <vector>
+#include <algorithm>
 
 using std::cin;
 using std::cout;
@@ -24,6 +25,9 @@ class Student_db
 		void Display_records(void);
 		bool Load_records();
 		bool Write_records();
+	
+		double Get_student_frequency(long id);
+		int Get_total_days(void);
 
 	private:
 		typedef struct
@@ -43,7 +47,6 @@ class Student_db
 
 		//internal functions
 		string hash_id(string id);
-
 		//private members
 		string m_db_fname;
 		string m_salt;

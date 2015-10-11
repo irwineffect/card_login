@@ -179,3 +179,73 @@ bool Student_db::Write_records(void)
 	return true;
 }
 
+double Student_db::Get_student_frequency(long id)
+{
+	string student_name;
+	int totalDays = 0, flag = 0;
+	int personIndex = -1, index = 0;
+	vector<int> attendance;
+	struct tm *time_struct;
+	//ensure the student exists
+	if (this->Lookup_name(id, student_name) == 0) 
+	{
+		cout << "Student not found." << endl;
+		return 0;
+	}
+	//if they exist, determine total days
+
+	totalDays = this->Get_total_days();
+	
+	//find their person index
+	while (personIndex = -1 && index < m_students.size())
+	{
+		if (m_students.at(index).name == student_name) personIndex = index;
+		index++;
+	}
+
+	//determine number of days that they were present
+	for (int i = 0; i < m_students.at(personIndex).times.size(); i++) 
+	{
+		time_struct = localtime(&m_students.at(personIndex).times.at(i));	
+		int tmp = time_struct->tm_year*1000 + time_struct->tm_yday;
+		flag = 0;
+		for (int j = 0; j < attendance.size(); j++)
+		{
+			if (attendance.at(j) == tmp) flag = 1;
+		}
+		if (!flag) attendance.push_back(tmp);
+	}
+	return ((double)attendance.size())/totalDays;
+}
+
+int Student_db::Get_total_days(void)
+{
+	int tempDate;
+	int flag = 0;
+	struct tm *time_struct;
+	vector<int> days;
+   days.clear();	
+	//This function will determine the total number of days of unique days within the database
+	for (int student = 0; student < m_students.size(); student++)
+	{
+		for (int time = 0; time < m_students.at(student).times.size(); time++)
+		{
+			//check if the current time exists in the days vector
+			time_struct = localtime(&m_students.at(student).times.at(time));
+			
+			tempDate = time_struct->tm_yday + time_struct->tm_year*1000;
+			flag = 0;
+
+			for (int k = 0; k < days.size(); k++)
+			{
+				if (days.at(k) == tempDate) flag = 1;
+			}
+
+			if (!flag) 
+			{
+				days.push_back(tempDate);
+			}
+		}
+	}	
+	return days.size();
+}
