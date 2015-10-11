@@ -15,6 +15,23 @@ Card_reader::~Card_reader(void)
 	fclose(log_fh);
 }
 
+string Card_reader::Read_raw(void)
+{
+	string line;
+	string logline;
+
+	Setup_term();
+	while(1)
+	{
+		getline(cin, line);
+		logline = line + '\n';
+		fwrite(logline.c_str(), logline.length(), 1, log_fh);
+
+		Restore_term();
+		return line;	
+	}
+}
+
 string Card_reader::Read(void)
 {
 	string line;
@@ -84,3 +101,5 @@ void Card_reader::Restore_term(void)
 {
 	tcsetattr(m_stdin_fileno, TCSANOW, &m_old_term_settings);
 }
+
+

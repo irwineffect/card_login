@@ -13,7 +13,7 @@ Student_db::~Student_db(void)
 {
 }
 
-bool Student_db::Login(int id)
+bool Student_db::Login(long id)
 {
 	vector<Student_memory_record>::iterator i;
 
@@ -30,7 +30,7 @@ bool Student_db::Login(int id)
 	return false;
 }
 
-bool Student_db::Lookup_name(int id, string &name)
+bool Student_db::Lookup_name(long id, string &name)
 {
 	vector<Student_memory_record>::iterator i;
 
@@ -46,7 +46,7 @@ bool Student_db::Lookup_name(int id, string &name)
 	return false;
 }
 
-bool Student_db::Add(int id, string name)
+bool Student_db::Add(long id, string name)
 {
 	string tmp;
 	if(Lookup_name(id, tmp))

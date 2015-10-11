@@ -13,6 +13,7 @@ class Card_reader
 	public:
 		Card_reader(int stdin_fileno);
 		~Card_reader(void);
+		string Read_raw(void);
 		string Read(void);
 		void Restore_term(void);
 		void Setup_term(void);

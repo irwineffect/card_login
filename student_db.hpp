@@ -18,9 +18,9 @@ class Student_db
 		Student_db(string db_filename, string password);
 		~Student_db(void);
 
-		bool Login(int id);
-		bool Lookup_name(int id, string &name);
-		bool Add(int id, string name);
+		bool Login(long id);
+		bool Lookup_name(long id, string &name);
+		bool Add(long id, string name);
 		void Display_records(void);
 		bool Load_records();
 		bool Write_records();
@@ -29,7 +29,7 @@ class Student_db
 		typedef struct
 		{
 			char name[32];
-			int id;
+			long id;
 			int num_times;
 			//time_t times[]; these follow after header
 		} Student_file_record_header;
@@ -37,7 +37,7 @@ class Student_db
 		typedef struct
 		{
 			string name;
-			int id;
+			long id;
 			vector<time_t> times;
 		} Student_memory_record;
 
