@@ -16,6 +16,7 @@ using std::flush;
 class Student_db
 {
 	public:
+		Student_db(void){}
 		Student_db(string db_filename, string password);
 		~Student_db(void);
 
@@ -25,7 +26,7 @@ class Student_db
 		void Display_records(void);
 		bool Load_records();
 		bool Write_records();
-	
+
 		double Get_student_frequency(long id);
 		int Get_total_days(void);
 
@@ -51,5 +52,5 @@ class Student_db
 		string m_db_fname;
 		string m_salt;
 		vector<Student_memory_record> m_students;
-	
+
 };
