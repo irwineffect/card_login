@@ -7,12 +7,20 @@
 void sig_handler(int signo);
 
 //global variables
-Student_db db("student_records.dat", "password");
+Student_db db;
 
-int main (void)
+int main (int argc, char *argv[])
 {
 	//setup signal handler
 	signal(SIGINT, sig_handler);
+
+	if(argc < 2)
+	{
+		cout << "must input filename of database!" << endl;
+		exit(1);
+	}
+
+	db = Student_db(argv[1], "password");
 
 	db.Load_records();
 	db.Display_records();
@@ -30,4 +38,3 @@ void sig_handler(int signo)
 	cout << "exiting!" << endl;
 	exit(0);
 }
-
