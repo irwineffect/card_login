@@ -1,0 +1,189 @@
+#include "student_db.hpp"
+#include <string.h>
+
+using namespace std;
+
+int main(int argc, char *argv[])
+{
+	String output_filename, database;
+
+	//This function will parse all of the database and export it to a CSV file. The file should be specified in the input arguments
+	for (int i = 1; i < argc; i++)
+	{
+		if (strcmp(argv[i], "-file") == 0)
+		{
+			//Copy the file name into our array
+			if (i+1 < argc)
+			{
+				strcpy(output_filename.c_str(), argv[++i]);
+			}
+			else
+			{
+				cout << "Error. File not specified." << endl;
+				return 0;
+			}
+		} 
+		else if (strcmp(argv[i], "-database") == 0)
+		{
+			if (i+1 < argc)
+			{
+				strcpy(database, [argv++i]);
+			}
+			else
+			{
+				cout << "Error. No database input." << endl;
+				return 0;
+			}
+		}
+		else 
+		{
+			cout << "Database CSV export \nProper Input parameters: \n\t-file [output filename]\n\t-database [database filename]" << endl;
+			return 0;
+		}
+	}
+
+	//We have now properly parsed the program input to get the IO filenames.
+
+	//Open the database and parse it
+	Student_db db(database.c_str(), "password");
+	if (db.Load_records() == false)
+	{
+		cout << "Error. Could not load database from specified database file." << endl;
+		return 0;
+	}
+
+	//Next, attempt to open the output file
+	FILE * output_file = fopen(output_filename.c_str(), "w");
+	if (output_file == NULL)
+	{
+		cout << "Error. Could not open the output file." << endl;
+		return 0;
+	}
+
+	//The respective files have been opened and the database has been opened.
+	//Next, begin to parse the database and create a record
+	vector<int> days_vector = db.Get_all_days();
+
+	//Next, perform a sort on the vector to order the days in chronological order
+	sort(days_vector.begin(), days_vector.end()); //uses std::sort
+
+	int year, month, day, yday;
+
+	//Now, write the header of the file
+	fprintf(output_file, "Name, Attendance Frequency");
+	for (int i = 0; i < days.size(); i++)
+	{
+
+		//Parse the number in vector into year, day, and month
+		year = vector.at(i)/1000;
+		yday = vector.at(i)%1000;
+		convert Yday(yday, year, &month, &day);
+		fprintf(output_file, ", %d/%d/%d", month, day, year);
+	}
+
+	long id;
+	String name;
+	double frequency;
+
+	//Headers are created. Next, loop through the number of individuals in the database
+	for (int i = 0; i < db.Get_record_count(); i++)
+	{
+		fprintf(output_file, "\n");
+
+		//Write their name and respective frequency
+		id = db.Get_ID(i);
+		db.Lookup_name(id, name);
+		frequency = db.Get_student_frequency(id);
+		fprintf(output_file, "%s, %lf");
+
+		//Next, mark them as present
+		for (int j = 0; j < days_vector.size(); j++)
+		{
+			//Loop through each day and check if they were present
+			if (db.Check_attendance(id, days_vector.at(i)))
+			{
+				fprintf(output_file, ", Present");
+			}
+			else
+			{
+				fprintf(output_file, ", Absent");
+			}
+		}
+	}
+
+	//close the file as cleanup
+	fclose(output_file);
+	printf("Successfully wrote attendance records to %s! Exitting.", output_filename.c_str());
+	return 1;
+}
+
+void convertYday(int yearday, int year, int *month, int *day)
+{
+	*month = 0;
+	*day = 0;
+	int daysCount = 0;
+	int found = 0;
+	//April, June, September, November have 30 days
+	while (((yearday - daysCount) > 0) && !found)
+	{
+		switch (*month)
+		{
+			case 1: 3: 5: 7: 8: 10: 12:
+				if (yearday - (daysCount+ 31) < 0)
+				{
+					//month is found.
+					found = 1;
+				}
+				else
+				{
+					//continue
+					daysCount += 31;
+					*month = *month + 1;
+				}
+				break;
+			case 2:
+				if (year%4 == 0) //leap year
+				{
+					if (yearday - (daysCount+ 29) < 0)
+					{
+						//month is found.
+						found = 1;
+					}
+					else
+					{
+						//continue
+						daysCount += 29;
+						*month = *month + 1;
+					}
+				} else {
+					if (yearday - (daysCount+ 28) < 0)
+					{
+						//month is found.
+						found = 1;
+					}
+					else
+					{
+						//continue
+						daysCount += 28;
+						*month = *month + 1;
+					}
+				}
+				break;
+			case default:
+				if (yearday - (daysCount+ 30) < 0)
+				{
+					//month is found.
+					found = 1;
+				}
+				else
+				{
+					//continue
+					daysCount += 30;
+					*month = *month + 1;
+				}
+				break;
+		}	
+	}
+
+	*day = yearday - daysCount;
+}
