@@ -27,9 +27,14 @@ class Student_db
 		bool Load_records();
 		bool Write_records();
 
+		//Frequency functions
 		double Get_student_frequency(long id);
 		int Get_total_days(void);
-
+		
+		//Functions created for exporting database to CSV
+		int Get_record_count();
+		void Get_ID(int index);
+		bool Check_attendance(int id, int year_yday);
 	private:
 		typedef struct
 		{
