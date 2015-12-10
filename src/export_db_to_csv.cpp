@@ -94,7 +94,7 @@ int main(int argc, char *argv[])
 		id = db.Get_ID(i);
 		db.Lookup_name(id, name);
 		frequency = db.Get_student_frequency(id);
-		fprintf(output_file, "%s, %lf");
+		fprintf(output_file, "%s, %lf", name.c_str(), frequency);
 
 		//Next, mark them as present
 		for (int j = 0; j < days_vector.size(); j++)
