@@ -1,11 +1,13 @@
 #include "student_db.hpp"
 #include <string.h>
+#include <stdio.h>
 
 using namespace std;
+void convertYday(int yearday, int year, int *month, int *day);
 
 int main(int argc, char *argv[])
 {
-	String output_filename, database;
+	string output_filename, database;
 
 	//This function will parse all of the database and export it to a CSV file. The file should be specified in the input arguments
 	for (int i = 1; i < argc; i++)
@@ -15,7 +17,7 @@ int main(int argc, char *argv[])
 			//Copy the file name into our array
 			if (i+1 < argc)
 			{
-				strcpy(output_filename.c_str(), argv[++i]);
+				output_filename = argv[++i];
 			}
 			else
 			{
@@ -27,7 +29,7 @@ int main(int argc, char *argv[])
 		{
 			if (i+1 < argc)
 			{
-				strcpy(database, [argv++i]);
+				database = argv[++i];
 			}
 			else
 			{
@@ -66,25 +68,25 @@ int main(int argc, char *argv[])
 
 	//Next, perform a sort on the vector to order the days in chronological order
 	sort(days_vector.begin(), days_vector.end()); //uses std::sort
-
+//	cout << "Vector properly sorted!" << endl;
 	int year, month, day, yday;
 
 	//Now, write the header of the file
 	fprintf(output_file, "Name, Attendance Frequency");
-	for (int i = 0; i < days.size(); i++)
+	for (int i = 0; i < days_vector.size(); i++)
 	{
-
+//		cout << days_vector.at(i) << endl;
 		//Parse the number in vector into year, day, and month
-		year = vector.at(i)/1000;
-		yday = vector.at(i)%1000;
-		convert Yday(yday, year, &month, &day);
+		year = days_vector.at(i)/1000 + 1900;
+		yday = days_vector.at(i)%1000;
+		convertYday(yday, year, &month, &day);
 		fprintf(output_file, ", %d/%d/%d", month, day, year);
 	}
-
+//	cout << "Successful header creation!" << endl;
 	long id;
-	String name;
+	string name;
 	double frequency;
-
+// 	cout << "Record count: " << db.Get_record_count() << endl;
 	//Headers are created. Next, loop through the number of individuals in the database
 	for (int i = 0; i < db.Get_record_count(); i++)
 	{
@@ -95,12 +97,12 @@ int main(int argc, char *argv[])
 		db.Lookup_name(id, name);
 		frequency = db.Get_student_frequency(id);
 		fprintf(output_file, "%s, %lf", name.c_str(), frequency);
-
+//		cout << "Processing User: " << name << endl;
 		//Next, mark them as present
 		for (int j = 0; j < days_vector.size(); j++)
 		{
 			//Loop through each day and check if they were present
-			if (db.Check_attendance(id, days_vector.at(i)))
+			if (db.Check_attendance(id, days_vector.at(j)))
 			{
 				fprintf(output_file, ", Present");
 			}
@@ -113,7 +115,7 @@ int main(int argc, char *argv[])
 
 	//close the file as cleanup
 	fclose(output_file);
-	printf("Successfully wrote attendance records to %s! Exitting.", output_filename.c_str());
+	printf("Successfully wrote attendance records to %s! Exitting.\n", output_filename.c_str());
 	return 1;
 }
 
@@ -128,7 +130,13 @@ void convertYday(int yearday, int year, int *month, int *day)
 	{
 		switch (*month)
 		{
-			case 1: 3: 5: 7: 8: 10: 12:
+			case 1:
+			case 3: 
+			case 5:
+			case 7:
+			case 8:
+			case 10:
+			case 12:
 				if (yearday - (daysCount+ 31) < 0)
 				{
 					//month is found.
@@ -169,7 +177,7 @@ void convertYday(int yearday, int year, int *month, int *day)
 					}
 				}
 				break;
-			case default:
+			default:
 				if (yearday - (daysCount+ 30) < 0)
 				{
 					//month is found.

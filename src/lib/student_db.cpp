@@ -232,7 +232,6 @@ int Student_db::Get_total_days(void)
 		{
 			//check if the current time exists in the days vector
 			time_struct = localtime(&m_students.at(student).times.at(time));
-			
 			tempDate = time_struct->tm_yday + time_struct->tm_year*1000;
 			flag = 0;
 
@@ -282,9 +281,9 @@ vector<int> Student_db::Get_all_days(void)
 	return days;
 }
 
-void Student_db::Get_record_count()
+int Student_db::Get_record_count()
 {
-	return ,_students.size();
+	return m_students.size();
 }
 
 long Student_db::Get_ID(int index)
@@ -294,8 +293,7 @@ long Student_db::Get_ID(int index)
 
 bool Student_db::Check_attendance(long id, int year_yday)
 {
-int index = 0;
-
+	int index = 0;
 	//first, get the student location in the database
 	for (int i = 0; i < m_students.size(); i++)
 	{
@@ -305,7 +303,6 @@ int index = 0;
 			break;
 		}
 	}
-
 	int temp_yyday;
 	struct tm * tm_struct;
 	//next, look through their attendance and compare

@@ -30,11 +30,12 @@ class Student_db
 		//Frequency functions
 		double Get_student_frequency(long id);
 		int Get_total_days(void);
-		
+		vector<int> Get_all_days()
+			;		
 		//Functions created for exporting database to CSV
 		int Get_record_count();
-		void Get_ID(int index);
-		bool Check_attendance(int id, int year_yday);
+		long Get_ID(int index);
+		bool Check_attendance(long id, int year_yday);
 	private:
 		typedef struct
 		{
