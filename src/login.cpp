@@ -63,8 +63,20 @@ int main (int argc, char* argv[])
 				{
 					cout << "Please enter your name (first last) > ";
 					getline(cin, name);
+					if (cin.eof()) //Someone typed CTRL-D !
+					{
+						cin.clear(); //Clear the Error bits
+						cin.ignore(); //Clear out the input buffer
+						continue; //Restart the loop
+					}
 					cout << "You entered \"" << name << "\", is this correct (y/n)? > ";
 					getline(cin, tmp);
+					if (cin.eof()) //Someone typed CTRL-D !
+					{
+						cin.clear(); //Clear the Error bits
+						cin.ignore(); //Clear out the input buffer
+						continue; //Restart the loop
+					}
 					if(tmp[0] == 'y')
 						break;
 				}
