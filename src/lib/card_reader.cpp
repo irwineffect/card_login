@@ -24,11 +24,17 @@ string Card_reader::Read_raw(void)
 	while(1)
 	{
 		getline(cin, line);
+		if (cin.eof()) //Someone typed CTRL-D !
+		{
+			cin.clear(); //Clear the Error bits
+			cin.ignore(); //Clear out the input buffer
+			continue; //Restart the loop
+		}
 		logline = line + '\n';
 		fwrite(logline.c_str(), logline.length(), 1, log_fh);
 
 		Restore_term();
-		return line;	
+		return line;
 	}
 }
 
@@ -49,9 +55,9 @@ string Card_reader::Read(void)
 			cout << "card not recognized, please swipe again" << endl;
 			continue;
 		}//else, card recognized
-	
+
 		Restore_term();
-		return extract_id(line);	
+		return extract_id(line);
 	}
 }
 
@@ -101,5 +107,3 @@ void Card_reader::Restore_term(void)
 {
 	tcsetattr(m_stdin_fileno, TCSANOW, &m_old_term_settings);
 }
-
-
