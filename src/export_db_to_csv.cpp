@@ -121,7 +121,7 @@ int main(int argc, char *argv[])
 
 void convertYday(int yearday, int year, int *month, int *day)
 {
-	*month = 0;
+	*month = 1;
 	*day = 0;
 	int daysCount = 0;
 	int found = 0;

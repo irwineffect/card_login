@@ -182,9 +182,8 @@ bool Student_db::Write_records(void)
 double Student_db::Get_student_frequency(long id)
 {
 	string student_name;
-	int totalDays = 0, flag = 0;
 	int personIndex = -1, index = 0;
-	vector<int> attendance;
+	int attendance = 0;
 	struct tm *time_struct;
 	//ensure the student exists
 	if (this->Lookup_name(id, student_name) == 0) 
@@ -193,8 +192,8 @@ double Student_db::Get_student_frequency(long id)
 		return 0;
 	}
 	//if they exist, determine total days
-
-	totalDays = this->Get_total_days();
+		
+	vector<int> totalDays = this->Get_all_days();
 	
 	//find their person index
 	while (personIndex = -1 && index < m_students.size())
@@ -204,18 +203,14 @@ double Student_db::Get_student_frequency(long id)
 	}
 
 	//determine number of days that they were present
-	for (int i = 0; i < m_students.at(personIndex).times.size(); i++) 
+	for (int i = 0; i < totalDays.size(); i++)
 	{
-		time_struct = localtime(&m_students.at(personIndex).times.at(i));	
-		int tmp = time_struct->tm_year*1000 + time_struct->tm_yday;
-		flag = 0;
-		for (int j = 0; j < attendance.size(); j++)
-		{
-			if (attendance.at(j) == tmp) flag = 1;
-		}
-		if (!flag) attendance.push_back(tmp);
+		if (Check_attendance(id, totalDays.at(i))) attendance++;
 	}
-	return ((double)attendance.size())/totalDays;
+		
+
+	cout << "Attendance Days: " << attendance << " Total: " << totalDays.size();
+	return ((double)attendance)/totalDays.size();
 }
 
 int Student_db::Get_total_days(void)
@@ -266,7 +261,6 @@ vector<int> Student_db::Get_all_days(void)
 			
 			tempDate = time_struct->tm_yday + time_struct->tm_year*1000;
 			flag = 0;
-
 			for (int k = 0; k < days.size(); k++)
 			{
 				if (days.at(k) == tempDate) flag = 1;
