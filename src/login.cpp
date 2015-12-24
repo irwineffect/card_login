@@ -23,6 +23,7 @@ int main (int argc, char* argv[])
 	int fd;
 	//setup signal handler
 	signal(SIGINT, sig_handler);
+	signal(SIGHUP, sig_handler);
 
 	if(argc < 2)
 	{
@@ -74,7 +75,7 @@ int main (int argc, char* argv[])
 
 					cout << "You entered \"" << name << "\", is this correct (y/n)? > ";
 					getline(cin, tmp);
-					
+
 					if (cin.eof()) //Someone typed CTRL-D !
 					{
 						cin.clear(); //Clear the Error bits
@@ -103,6 +104,8 @@ void sig_handler(int signo)
 {
 	if(signo == SIGINT)
 		cout << "catching SIGINT" << endl;
+	else if (signo == SIGHUP)
+		cout << "catching SIGHUP" << endl;
 
 	reader.Restore_term();
 	db.Write_records();
