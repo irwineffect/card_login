@@ -22,7 +22,7 @@ add_library(lib ${LIB_SRC})
 
 #add executable targets
 add_executable(login.exe ${SRC_DIR}/login.cpp)
-target_link_libraries(login.exe lib)
+target_link_libraries(login.exe lib rt)
 
 add_executable(read_db.exe ${SRC_DIR}/read_db.cpp)
 target_link_libraries(read_db.exe lib)

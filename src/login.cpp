@@ -4,10 +4,12 @@
 #include <signal.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <time.h>
 
 
 //forward declarations
 void sig_handler(int signo);
+void timer_handler(int signo);
 long parse_id(string raw_read);
 
 //global variables
@@ -21,9 +23,30 @@ int main (int argc, char* argv[])
 	string name;
 	string id_preparse;
 	int fd;
+
+        //Timer variables
+        timer_t tid;
+        sigevent sevp;
+        itimerspec its;
+
+        //Setup the SigEvent to trigger SIGUSR1 signal
+        sevp.sigev_notify = SIGEV_SIGNAL;
+        sevp.sigev_signo = SIGUSR1;
+
+        //Set the Timer to trigger ~every minute
+        its.it_interval.tv_sec = 60;
+        its.it_interval.tv_nsec = 0;
+        its.it_value.tv_sec = 60;
+        its.it_value.tv_nsec = 0;
+
 	//setup signal handler
 	signal(SIGINT, sig_handler);
 	signal(SIGHUP, sig_handler);
+        signal(SIGUSR1, timer_handler);
+
+        //Create and set the save timer
+        timer_create(CLOCK_REALTIME, &sevp, &tid);
+        timer_settime(tid, 0, &its, NULL);
 
 	if(argc < 2)
 	{
@@ -112,6 +135,13 @@ void sig_handler(int signo)
 
 	cout << "exiting!" << endl;
 	exit(0);
+}
+
+//Wrapper for saving the database when the timer fires
+void timer_handler(int signo)
+{
+    cout << "Caught SIGUSR1" << endl;
+    db.Write_records();
 }
 
 long parse_id(string raw_read)
