@@ -4,7 +4,7 @@ project(card_reader CXX)
 
 #set properties
 set(DEBUG_OPTIONS -g)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${DEBUG_OPTIONS}")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11  ${DEBUG_OPTIONS}")
 
 #output dirs
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "../bin")
