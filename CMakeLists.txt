@@ -32,3 +32,6 @@ target_link_libraries(get_attendance.exe lib)
 
 add_executable(export_to_csv.exe ${SRC_DIR}/export_db_to_csv.cpp)
 target_link_libraries(export_to_csv.exe lib)
+
+add_executable(gui.exe ${SRC_DIR}/gui_log.cpp)
+target_link_libraries(gui.exe lib ncurses rt)
