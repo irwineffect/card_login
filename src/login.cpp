@@ -89,13 +89,13 @@ int main (int argc, char* argv[])
 					cout << "Please enter your name (first last) > ";
 					getline(cin, name);
 
-                    //Loop over the name and send specific characters to upper
-                    for (auto i = name.begin(); i < name.end(); ++i)
-                    {
-                        if (i == name.begin()) *i = toupper(*i);
-                        if (*(i-1) == ' ') *i = toupper(*i);
-                        if (*(i-1) == '-') *i = toupper(*i);
-                    }
+					//Loop over the name and send specific characters to upper
+					for (auto i = name.begin(); i < name.end(); ++i)
+					{
+					    if (i == name.begin()) *i = toupper(*i);
+					    if (*(i-1) == ' ') *i = toupper(*i);
+					    if (*(i-1) == '-') *i = toupper(*i);
+					}
 
 					if (cin.eof()) //Someone typed CTRL-D !
 					{
