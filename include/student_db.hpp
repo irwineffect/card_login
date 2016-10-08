@@ -4,6 +4,7 @@
 #include <vector>
 #include <algorithm>
 #include <chrono>
+#include <ctype.h>
 
 using std::cin;
 using std::cout;
@@ -42,7 +43,7 @@ class Student_db
 		typedef struct
 		{
 			char name[32];
-			long id;
+            uint64_t id;
 			int num_times;
 			//time_t times[]; these follow after header
 		} Student_file_record_header;
@@ -50,7 +51,7 @@ class Student_db
 		typedef struct
 		{
 			string name;
-			long id;
+			uint64_t id;
             vector<system_clock::time_point> times;
 		} Student_memory_record;
 
