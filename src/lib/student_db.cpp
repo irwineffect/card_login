@@ -21,7 +21,7 @@ bool Student_db::Login(long id)
 	{
 		if(i->id == id)
 		{
-			time_t current_time = time(0);
+			system_clock::time_point current_time = system_clock::now();
 			i->times.push_back(current_time);
 			return true;
 		}
@@ -75,14 +75,15 @@ bool Student_db::Add(long id, string name)
 void Student_db::Display_records(void)
 {
 	vector<Student_memory_record>::iterator i;
-	vector<time_t>::iterator j;
+	vector<system_clock::time_point>::iterator j;
 
 	for(i = m_students.begin(); i != m_students.end(); ++i)
 	{
 		cout << i->id << " " << i->name << endl;
 		for(j = i->times.begin(); j != i->times.end(); ++j)
 		{
-			cout << "\t" << ctime(&(*j)) << endl;
+            time_t time = system_clock::to_time_t(*j);
+            cout << "\t" << ctime(*time) << endl;
 		}
 		cout << endl;
 	}
@@ -110,7 +111,7 @@ bool Student_db::Load_records(void)
 	while(fread(&header, sizeof(header), 1, db_fh)) //read header of student record
 	{
 		//allocate memory for time records
-		time_t *times = new time_t [header.num_times];
+		system_clock::time_point *times = new system_clock::time_point [header.num_times];
 
 		//read times into memory
 		fread(times, sizeof(time_t), header.num_times, db_fh);
@@ -121,7 +122,7 @@ bool Student_db::Load_records(void)
 		student.id = header.id;
 		for(int i=0; i < header.num_times; ++i)
 		{
-			time_t tmp = times[i];
+           system_clock::time_point tmp = times[i];
 			student.times.push_back(tmp);
 		}
 		m_students.push_back(student);
@@ -152,7 +153,7 @@ bool Student_db::Write_records(void)
 	int num_records=0;
 	
 	vector<Student_memory_record>::iterator i;
-	vector<time_t>::iterator j;
+    vector<system_clock::time_point>::iterator j;
 
 	Student_file_record_header header;
 
@@ -168,7 +169,7 @@ bool Student_db::Write_records(void)
 		//write times to the file
 		for(j = i->times.begin(); j != i->times.end(); ++j)
 		{
-			time_t time = *j;
+            system_clock::time_point time = *j;
 			fwrite(&time, sizeof(time), 1, db_fh); 
 		}
 		++num_records;

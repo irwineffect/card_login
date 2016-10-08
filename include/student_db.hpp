@@ -3,6 +3,7 @@
 #include <time.h>
 #include <vector>
 #include <algorithm>
+#include <chrono>
 
 using std::cin;
 using std::cout;
@@ -12,6 +13,7 @@ using std::getline;
 using std::vector;
 using std::cerr;
 using std::flush;
+using std::chrono::system_clock;
 
 class Student_db
 {
@@ -30,8 +32,8 @@ class Student_db
 		//Frequency functions
 		double Get_student_frequency(long id);
 		int Get_total_days(void);
-		vector<int> Get_all_days()
-			;		
+		vector<int> Get_all_days();
+
 		//Functions created for exporting database to CSV
 		int Get_record_count();
 		long Get_ID(int index);
@@ -49,7 +51,7 @@ class Student_db
 		{
 			string name;
 			long id;
-			vector<time_t> times;
+            vector<system_clock::time_point> times;
 		} Student_memory_record;
 
 		//internal functions
