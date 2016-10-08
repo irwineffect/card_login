@@ -10,7 +10,7 @@
 //forward declarations
 void sig_handler(int signo);
 void timer_handler(int signo);
-long parse_id(string raw_read);
+uint64_t parse_id(string raw_read);
 
 //global variables
 Card_reader reader(0);
@@ -152,7 +152,7 @@ void timer_handler(int signo)
 	db.Write_records();
 }
 
-long parse_id(string raw_read)
+uint64_t parse_id(string raw_read)
 {
 	int index_semicolon = -1, index_equals = -1;
 	string temp;
