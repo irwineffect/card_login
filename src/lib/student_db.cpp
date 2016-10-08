@@ -83,7 +83,7 @@ void Student_db::Display_records(void)
 		for(j = i->times.begin(); j != i->times.end(); ++j)
 		{
             time_t time = system_clock::to_time_t(*j);
-            cout << "\t" << ctime(*time) << endl;
+            cout << "\t" << ctime(&time) << endl;
 		}
 		cout << endl;
 	}
@@ -227,7 +227,9 @@ int Student_db::Get_total_days(void)
 		for (int time = 0; time < m_students.at(student).times.size(); time++)
 		{
 			//check if the current time exists in the days vector
-			time_struct = localtime(&m_students.at(student).times.at(time));
+            time_t tt = system_clock::to_time_t(m_students.at(student).times.at(time));
+
+            time_struct = localtime(&tt);
 			tempDate = time_struct->tm_yday + time_struct->tm_year*1000;
 			flag = 0;
 
@@ -258,7 +260,9 @@ vector<int> Student_db::Get_all_days(void)
 		for (int time = 0; time < m_students.at(student).times.size(); time++)
 		{
 			//check if the current time exists in the days vector
-			time_struct = localtime(&m_students.at(student).times.at(time));
+            time_t tt = system_clock::to_time_t(m_students.at(student).times.at(time));
+
+            time_struct = localtime(&tt);
 			
 			tempDate = time_struct->tm_yday + time_struct->tm_year*1000;
 			flag = 0;
@@ -303,8 +307,8 @@ bool Student_db::Check_attendance(long id, int year_yday)
 	//next, look through their attendance and compare
 	for (int i = 0; i < m_students.at(index).times.size(); i++)
 	{
-
-		tm_struct = localtime(&m_students.at(index).times.at(i));
+        time_t tt = system_clock::to_time_t(m_students.at(index).times.at(i));
+        tm_struct = localtime(&tt);
 		//convert the time_t structure to our year_yday format
 		temp_yyday = tm_struct->tm_yday + tm_struct->tm_year*1000;
 
