@@ -166,6 +166,6 @@ uint64_t parse_id(string raw_read)
 		return 0;
 	}
 	temp = raw_read.substr(index_semicolon+1, index_equals - index_semicolon - 1);
-
-	return strtol(temp.c_str(), NULL, 10);
+    if (sizeof(long) == 8) return strtol(temp.c_str(), NULL, 10);
+    else if (sizeof(long) == 4) return strtoll(temp.c_str(), NULL, 10);
 }
