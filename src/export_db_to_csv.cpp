@@ -83,7 +83,7 @@ int main(int argc, char *argv[])
 		fprintf(output_file, ", %d/%d/%d", month, day, year);
 	}
 //	cout << "Successful header creation!" << endl;
-	long id;
+	uint64_t id;
 	string name;
 	double frequency;
 // 	cout << "Record count: " << db.Get_record_count() << endl;

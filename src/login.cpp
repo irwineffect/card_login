@@ -19,7 +19,7 @@ Student_db db;
 int main (int argc, char* argv[])
 {
 
-	long id;
+	uint64_t id;
 	string name;
 	string id_preparse;
 	int fd;
