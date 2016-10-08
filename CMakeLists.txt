@@ -32,3 +32,6 @@ target_link_libraries(get_attendance.exe lib)
 
 add_executable(export_to_csv.exe ${SRC_DIR}/export_db_to_csv.cpp)
 target_link_libraries(export_to_csv.exe lib)
+
+add_executable(convert_db.exe ${SRC_DIR}/convert_db.cpp)
+target_link_libraries(convert_db.exe lib)
