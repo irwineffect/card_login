@@ -15,6 +15,7 @@ using std::vector;
 using std::cerr;
 using std::flush;
 using std::chrono::system_clock;
+using std::uint64_t;
 
 class Student_db
 {
@@ -23,22 +24,22 @@ class Student_db
 		Student_db(string db_filename, string password);
 		~Student_db(void);
 
-		bool Login(long id);
-		bool Lookup_name(long id, string &name);
-		bool Add(long id, string name);
+		bool Login(uint64_t id);
+        bool Lookup_name(uint64_t id, string &name);
+        bool Add(uint64_t id, string name);
 		void Display_records(void);
 		bool Load_records();
 		bool Write_records();
 
 		//Frequency functions
-		double Get_student_frequency(long id);
+        double Get_student_frequency(uint64_t id);
 		int Get_total_days(void);
 		vector<int> Get_all_days();
 
 		//Functions created for exporting database to CSV
 		int Get_record_count();
-		long Get_ID(int index);
-		bool Check_attendance(long id, int year_yday);
+        uint64_t Get_ID(int index);
+        bool Check_attendance(uint64_t id, int year_yday);
 	private:
 		typedef struct
 		{

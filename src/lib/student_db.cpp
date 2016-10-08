@@ -13,7 +13,7 @@ Student_db::~Student_db(void)
 {
 }
 
-bool Student_db::Login(long id)
+bool Student_db::Login(uint64_t id)
 {
 	vector<Student_memory_record>::iterator i;
 
@@ -30,7 +30,7 @@ bool Student_db::Login(long id)
 	return false;
 }
 
-bool Student_db::Lookup_name(long id, string &name)
+bool Student_db::Lookup_name(uint64_t id, string &name)
 {
 	vector<Student_memory_record>::iterator i;
 
@@ -46,7 +46,7 @@ bool Student_db::Lookup_name(long id, string &name)
 	return false;
 }
 
-bool Student_db::Add(long id, string name)
+bool Student_db::Add(uint64_t id, string name)
 {
 	string tmp;
 	if(Lookup_name(id, tmp))
@@ -180,7 +180,7 @@ bool Student_db::Write_records(void)
 	return true;
 }
 
-double Student_db::Get_student_frequency(long id)
+double Student_db::Get_student_frequency(uint64_t id)
 {
 	string student_name;
 	int personIndex = -1, index = 0;
@@ -285,12 +285,12 @@ int Student_db::Get_record_count()
 	return m_students.size();
 }
 
-long Student_db::Get_ID(int index)
+uint64_t Student_db::Get_ID(int index)
 {
 	return m_students.at(index).id;
 }
 
-bool Student_db::Check_attendance(long id, int year_yday)
+bool Student_db::Check_attendance(uint64_t id, int year_yday)
 {
 	int index = 0;
 	//first, get the student location in the database
