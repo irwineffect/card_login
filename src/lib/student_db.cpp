@@ -104,7 +104,7 @@ bool Student_db::Load_records(void)
 	//load student records into memory
 	cout << "loading student records..." << flush;
 	m_students.clear();
-	int num_records=0;;
+	int num_records=0;
 
 	Student_file_record_header header;
 
@@ -114,7 +114,7 @@ bool Student_db::Load_records(void)
 		system_clock::time_point *times = new system_clock::time_point [header.num_times];
 
 		//read times into memory
-		fread(times, sizeof(time_t), header.num_times, db_fh);
+		fread(times, sizeof(system_clock::time_point), header.num_times, db_fh);
 
 		//load student into db_structure
 		Student_memory_record student;
